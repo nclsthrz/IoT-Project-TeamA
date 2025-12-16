@@ -5,7 +5,7 @@
 #include "pitches.h"
 
 // ====================
-// ÉCRAN OLED
+// OLED SCREEN
 // ====================
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
@@ -26,7 +26,7 @@ const uint8_t buttonPins[] = {0, 1, 2, 3};
 #define POT_PIN 4
 
 // ====================
-// JEU SIMON
+// SIMON GAME
 // ====================
 #define MAX_GAME_LENGTH 100
 uint8_t gameSequence[MAX_GAME_LENGTH] = {0};
@@ -75,7 +75,7 @@ void showScore(int score) {
 }
 
 // ====================
-// JEU SIMON 
+// SIMON GAME 
 // ====================
 void lightLedAndPlayTone(byte ledIndex) {
   digitalWrite(ledPins[ledIndex], HIGH);
@@ -180,20 +180,20 @@ int runSimonGame() {
 }
 
 // ====================
-// JEU 10 SEC TIMER 
+// 10 SEC TIMER GAME
 // ====================
 float run10SecTimer() {
   clearDisplay();
   display.setTextSize(2);
   display.setCursor(15, 20);
-  display.println(F("PRET ?"));
+  display.println(F("READY ?"));
   display.display();
   delay(1500);
 
   clearDisplay();
   display.setTextSize(1);
   display.setCursor(10, 10);
-  display.println(F("GO! Appuyez a 10.000"));
+  display.println(F("GO! PRESS AT 10.000"));
   display.display();
 
   tone(SPEAKER_PIN, NOTE_C5, 200);
@@ -210,13 +210,16 @@ float run10SecTimer() {
     if (currentTime > 12000) break;
 
     float elapsed = currentTime / 1000.0;
+
     display.clearDisplay();
-    display.setTextSize(2);
-    display.setCursor(20, 15);
-    display.printf("%.3f", elapsed);
-    display.setTextSize(1);
-    display.setCursor(95, 25);
-    display.println(F("SEC"));
+    if (elapsed < 5.0) {
+      display.setTextSize(2);
+      display.setCursor(20, 15);
+      display.printf("%.3f", elapsed);
+      display.setTextSize(1);
+      display.setCursor(95, 25);
+      display.println(F("SEC"));
+    }
     display.display();
 
     if (digitalRead(BTN_GREY) == LOW) {
@@ -227,17 +230,16 @@ float run10SecTimer() {
   }
 
   float playerTime = (millis() - startTime) / 1000.0;
-  float deviation = fabs(playerTime - 10.0) * 1000.0;
-  
-  if (deviation < 5) {
+  float deviation  = fabs(playerTime - 10.0) * 1000.0;
 
+  if (deviation < 100) {
     clearDisplay();
     display.setTextSize(3);
     display.setCursor(25, 20);
-    display.println(F("BRAVO!"));
+    display.println(F("BRAVO"));
     display.display();
-    
-    int winMelody[] = {NOTE_E5, NOTE_G5, NOTE_E6, NOTE_C6, NOTE_G5, NOTE_E5};
+
+    int winMelody[]    = {NOTE_E5, NOTE_G5, NOTE_E6, NOTE_C6, NOTE_G5, NOTE_E5};
     int winDurations[] = {150, 150, 300, 300, 300, 500};
     for (int i = 0; i < 6; i++) {
       tone(SPEAKER_PIN, winMelody[i], winDurations[i]);
@@ -245,16 +247,15 @@ float run10SecTimer() {
     }
     noTone(SPEAKER_PIN);
   } else {
-
     clearDisplay();
     display.setTextSize(2);
     display.setCursor(10, 5);
-    display.println(F("ECART:"));
+    display.println(F("GAP:"));
     display.setTextSize(3);
     display.setCursor(15, 30);
     display.printf("%.0fms", deviation);
     display.display();
-    
+
     tone(SPEAKER_PIN, NOTE_G3, 200);
     delay(250);
     tone(SPEAKER_PIN, NOTE_DS3, 200);
@@ -265,7 +266,6 @@ float run10SecTimer() {
   delay(3000);
 
   int deviationMs = (int)round(deviation);
-
   if (deviationMs > 0 && (bestTimerMs == 0 || deviationMs < bestTimerMs)) {
     bestTimerMs = deviationMs;
   }
@@ -274,7 +274,7 @@ float run10SecTimer() {
 }
 
 // ====================
-// JEU REFLEX CHALLENGE
+// REFLEX CHALLENGE GAME
 // ====================
 float runReflexChallenge() {
   clearDisplay();
@@ -321,7 +321,7 @@ float runReflexChallenge() {
             display.printf("%.3fs", reactionSec);
             display.setTextSize(1);
             display.setCursor(10, 45);
-            display.printf("Essai %d/10", currentTrial + 1);
+            display.printf("Try %d/10", currentTrial + 1);
             display.display();
             
             tone(SPEAKER_PIN, NOTE_C5, 100);
@@ -333,7 +333,7 @@ float runReflexChallenge() {
             clearDisplay();
             display.setTextSize(2);
             display.setCursor(25, 25);
-            display.println(F("ERREUR!"));
+            display.println(F("ERROR!"));
             display.display();
             
             tone(SPEAKER_PIN, NOTE_G3, 300);
@@ -352,7 +352,7 @@ float runReflexChallenge() {
   clearDisplay();
   display.setTextSize(2);
   display.setCursor(5, 10);
-  display.println(F("10e ESSAI:"));
+  display.println(F("10th Try:"));
   display.setTextSize(3);
   display.setCursor(15, 35);
   display.printf("%.3fs", reactionTimes[9]);
@@ -368,7 +368,7 @@ float runReflexChallenge() {
   clearDisplay();
   display.setTextSize(2);
   display.setCursor(5, 10);
-  display.println(F("MOYENNE:"));
+  display.println(F("MEAN:"));
   display.setTextSize(3);
   display.setCursor(15, 35);
   display.printf("%.3fs", average);
@@ -420,7 +420,7 @@ void runGlobalCognitive() {
   float reflexAverage = runReflexChallenge();
   delay(1000);
 
-  // === CALCUL GLOBAL SCORE ===
+  // === GLOBAL SCORE ===
   int globalScore = (simonFinal * 10) + 
                     (int)( (timerDeviation>0 ? 1000.0 / timerDeviation : 0) ) + 
                     (int)( (reflexAverage>0 ? 1000.0 / (reflexAverage * 10) : 0) );
