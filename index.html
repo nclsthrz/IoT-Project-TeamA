@@ -189,7 +189,7 @@
           <div style="border: none; border-radius: 15px; box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4); overflow: hidden; background: linear-gradient(45deg, #0575e6, #7928ca81); padding: 10px;">
             <video poster="" id="tree" autoplay controls muted loop height="100%" style="display: block; width: 100%; border-radius: 15px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);">
               <!-- Your video here -->
-              <source src="static/videos/jeu_reflex_challenge.mp4" type="video/mp4">
+              <source src="static/videos/3games_gameplay.mp4" type="video/mp4">
             </video>
           </div>
         </div>
@@ -209,14 +209,26 @@
          <h2 class="title is-3" style="background: linear-gradient(45deg, #f200b571, #eb419f8e, #0077ff5b, #2881cad7); color: white; padding: 10px; border-radius: 10px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); text-align: center;">
            Overview
          </h2>
+
         <div class="content has-text-justified">
-            Overview of Smart IoT Pet Feeding.
-            <strong>(Feeding Automation)</strong>: Ensures pets are fed consistently and on time.
-            <span style="color: #ff69b4;">(Scheduled Feeding):</span> Simplifies meal times with automated schedules for pets 
-            <span style="color: #007bff;">(Weight Monitoring)</span>, Tracks food consumption for better pet health management 
+          <p>
+            <strong>Reflex Challenge Game Overview.</strong><br>
+            The Reflex Challenge is a timing-based game where the player must press a button as close as possible to a target moment.
+            The OLED screen displays the elapsed time when the button is pressed, as well as the current attempt number
+            <strong>(Try X/10)</strong>, allowing the player to track progress across multiple attempts.
+            <br><br>
+            The game uses physical interaction through colored LEDs and buttons, making the experience intuitive and engaging.
+            Each attempt challenges the player's perception of time and reaction accuracy.
           </p>
-          <img src="static/images/Plan.png" alt="Teaser GIF" height="100%">
-          <p class="subtitle has-text-centered">
+
+          <div style="text-align: center; margin-top: 20px;">
+            <img src="static/images/oled_screen.png" alt="OLED screen showing time and try count" style="width: 100%; border-radius: 15px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);">
+          </div>
+
+          <div style="text-align: center; margin-top: 20px;">
+            <img src="static/images/leds_and_buttons.png" alt="LEDs and buttons setup" style="width: 100%; border-radius: 15px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);">
+          </div>
+
         </div>
       </div>
     </div>
@@ -226,9 +238,6 @@
 
 <!-- End paper abstract -->
 
-<!-- Teaser video-->
-
-
 <section class="section hero is-small">
   <div class="container is-max-desktop">
     <div class="columns is-centered">
@@ -237,58 +246,34 @@
          <h2 class="title is-3" style="background: linear-gradient(45deg, #f200b571, #eb419f8e, #0077ff5b, #2881cad7); color: white; padding: 10px; border-radius: 10px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); text-align: center;">
            Method
          </h2>
-          <div class="content has-text-justified" style="font-size: 4.5 rem;"></div>
-          <strong>Overview of Smart IoT Pet Feeding.</strong>
-          <strong>Feeding Automation</strong> 
-          <strong>Scheduled Feeding</strong> 
-           <strong>Weight Monitoring</strong> 
+
+          <div class="content has-text-justified">
+            <p>
+              <strong>Game Logic Implementation.</strong><br>
+              I implemented the Reflex Challenge game by using precise system timers to measure the player’s reaction time.
+              Each button press is captured in real time, and the deviation from the target moment is calculated in milliseconds.
+              The OLED screen displays both the measured time and the current attempt number, allowing the player to follow their progress.
+              <br><br>
+
+              <strong>Scoreboard Design Choice.</strong><br>
+              I chose to implement a scoreboard system without using EEPROM.
+              Although persistent storage was initially planned, EEPROM-based saving caused reliability issues during development.
+              To ensure stability and correct gameplay behavior, I decided to keep the scores stored in memory for each session.
+              <br><br>
+
+              <strong>Project Integration and Development Environment.</strong><br>
+              The project was first developed and tested on the Wokwi simulator.
+              However, merging the three different games into a single project initially did not work correctly in Visual Studio Code.
+              After debugging and reorganizing the code structure, I successfully merged all three games and ran the complete project locally in VS Code.
+            </p>
           </div>
-          </p>
-          </p>
-          <div style="text-align: center;">
-          <img src="static/images/Plan2.png" alt="MY ALT TEXT" style="display: block; width: 100%; border-radius: 15px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);">
-          </div>
-      
-      </p>
-      <div style="text-align: center;">
-      </p>
-      </div>   
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-
-<!--End BibTex citation -->
-<section class="section" id="BibTeX">
-  <div class="container is-max-desktop content">
-    <h2 class="title">BibTeX</h2>
-    <pre><code> Commingh Soon...
-</code></pre>
-  </div>
-</section>
-
-
-
-  <footer class="footer">
-  <div class="container">
-    <div class="columns is-centered">
-      <div class="column is-8">
-        <div class="content">
-
-          <p>
-            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
-            You are free to borrow the of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
-            Commons Attribution-ShareAlike 4.0 International License</a>.
-          </p>
 
         </div>
       </div>
     </div>
   </div>
-</footer>
+</section>
+
 
 <!-- Statcounter tracking code -->
   
